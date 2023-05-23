@@ -20,6 +20,16 @@ const Active = ({ info, name }) => {
   const [value, setValue] = useState();
   return (
     <div className="chat__active">
+      <h2>{info}</h2>
+      <div className="chat__active__body">
+        {arr.map((type) => (
+          <Message
+            isUser={type.isUser}
+            name={type.name}
+            text={type.text}
+          ></Message>
+        ))}
+      </div>
       <TextArea
         onChange={(e) => setValue(e.target.value)}
         size="large"
