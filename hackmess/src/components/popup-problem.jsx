@@ -31,6 +31,12 @@ const PopupProblem = () => {
             <h2>3.Факторинг</h2>{" "}
           </div>
         </Link>
+        <Link to="/support">
+          {" "}
+          <div className="popup__choosing">
+            <h2>4.Не знаю вид своей проблемы</h2>{" "}
+          </div>
+        </Link>
       </div>
     </Popup>
   );
