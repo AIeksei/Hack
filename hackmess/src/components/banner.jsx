@@ -7,8 +7,14 @@ const Banner = () => {
       <header className="banner">
         <div className="header">
           <div className="banner__text">
+            <div className="banner__fix"></div>
             <Link to="/faq">
               <img src={logo}></img>
+            </Link>
+            <Link to="/login">
+              <div className="banner__quit">
+                <a>Выход</a>
+              </div>
             </Link>
           </div>
         </div>

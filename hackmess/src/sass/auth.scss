@@ -275,6 +275,7 @@
 .faq {
   &__root {
     display: flex;
+    margin-left: 50px;
     height: 100vw;
     background: linear-gradient(
       90deg,
@@ -286,13 +287,59 @@
   &__questions {
     width: 100%;
   }
-  &__support {
-    width: 200px;
-    height: 30px;
+  &__block {
+    padding-top: 3px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: 10px;
+    margin-left: 11px;
+    margin-bottom: 10px;
     border-radius: 10px;
-    background-color: #00a7cf;
+    border: solid 2px #000000;
+    transition: all 1s ease-in-out;
+    cursor: pointer;
+    width: 70%;
+    height: 40px;
+
+    &__on {
+      padding-top: 3px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-left: 10px;
+      margin-left: 11px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: solid 2px #000000;
+      transition: all 1s ease-in-out;
+      cursor: pointer;
+      background-color: #9fede8;
+      width: 70%;
+      height: 300px;
+    }
+  }
+  &__question {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  &__answer {
+    font-size: 20px;
+  }
+  &__support {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    background-color: #7f37cc4e;
   }
 }
+
 .banner {
   text-align: center;
   padding-top: 5px;
@@ -308,10 +355,15 @@
     height: 80px;
   }
   &__quit {
-    float: right;
+    float: left;
     font-size: 24px;
-    position: relative;
-    bottom: 30px;
+  }
+  &__text {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__fix {
+    width: 100px;
   }
 }
 .root {

@@ -5,11 +5,7 @@ import { Link } from "react-router-dom";
 const PopupProblem = () => {
   return (
     <Popup
-      trigger={
-        <div className="faq__support">
-          <div className="faq__support__button"> Обратиться в поддержку</div>
-        </div>
-      }
+      trigger={<div className="faq__support">Обратиться в поддержку</div>}
       position="right center"
     >
       <div>
