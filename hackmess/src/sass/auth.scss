@@ -1,0 +1,317 @@
+.root {
+  font-family: Rubic;
+}
+.popup {
+  &__choosing {
+    width: 98%;
+    height: 70px;
+    background: linear-gradient(90deg, #80b0bd 0%, #2b9cb9 100%);
+    background-color: #117088;
+    margin-bottom: 10px;
+    border: 1px;
+    border-radius: 5px;
+    padding-left: 15px;
+
+    &:hover {
+      cursor: pointer;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(0, 212, 255, 1) 48%,
+        rgba(129, 114, 171, 1) 100%
+      );
+    }
+  }
+}
+.popup-content {
+  margin: auto;
+  background: rgb(255, 255, 255);
+  padding: 5px;
+}
+.popup-arrow {
+  color: rgb(0, 0, 0);
+}
+[role="tooltip"].popup-content {
+  width: 700px;
+  height: 350px;
+  box-shadow: rgba(0, 0, 0, 0.3) 5px 8px 15px;
+  border-radius: 10px;
+}
+
+.popup-overlay {
+  background: rgba(46, 134, 71, 0.5);
+  width: 1920px;
+}
+[data-popup="tooltip"].popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+.login {
+  &__form {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    padding-top: 5px;
+    width: 800px;
+    height: 400px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(0, 212, 255, 1) 48%,
+      rgba(129, 114, 171, 1) 100%
+    );
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 0px 0px 30px rgb(226, 226, 226);
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+  &__input {
+    width: 350px;
+    height: 50px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+  &__button {
+    width: 225px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 10px;
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.253);
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.489);
+    }
+  }
+}
+.chat {
+  &__root {
+    text-align: center;
+    display: flex;
+    padding-top: 25px;
+    height: 84vh;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(0, 212, 255, 1) 48%,
+      rgba(129, 114, 171, 1) 100%
+    );
+  }
+  &__pick {
+    width: 300px;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+    margin-right: 30px;
+    margin-left: 60px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px rgb(226, 226, 226);
+    position: relative;
+    &__user {
+      margin-left: auto;
+      margin-right: auto;
+      width: 260px;
+      height: 70px;
+      background: linear-gradient(
+        90deg,
+        rgb(231, 226, 245) 0%,
+        rgb(178, 178, 180) 100%
+      );
+      text-align: left;
+      padding-left: 20px;
+      border-radius: 10px;
+      h3 {
+        margin-top: 15px;
+        margin-bottom: 5px;
+      }
+    }
+    &__users {
+      height: 520px;
+    }
+    &__buttons {
+      width: 100%;
+      height: 50px;
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    &__button {
+      &__stop {
+        width: 120px;
+        height: 40px;
+        background-color: rgb(224, 224, 224);
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 20px;
+        padding-top: 10px;
+        background: linear-gradient(
+          90deg,
+          rgb(255, 89, 89) 0%,
+          rgb(194, 47, 47) 100%
+        );
+        font-weight: bold;
+        color: white;
+        &:hover {
+          cursor: pointer;
+          background: rgb(125, 28, 28);
+        }
+      }
+      &__help {
+        width: 120px;
+        height: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: rgb(224, 224, 224);
+        border-radius: 10px;
+        background: linear-gradient(90deg, #117088 0%, #00a7cf 100%);
+        font-weight: bold;
+        color: white;
+        &:hover {
+          cursor: pointer;
+          background: #003f4f;
+        }
+      }
+    }
+  }
+  &__active {
+    width: 700px;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+    margin-right: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px rgb(226, 226, 226);
+    &__body {
+      text-overflow: ellipsis;
+      overflow: scroll;
+      overflow-x: hidden;
+      &::-webkit-scrollbar {
+        width: 5px;
+        background-color: #f3f4f9;
+        &-thumb {
+          box-shadow: inset 0 0 6px #00a7cf;
+          border-radius: 15px;
+        }
+      }
+    }
+    &__message {
+      width: 100%;
+      margin-bottom: 15px;
+      strong {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+      &__user {
+        background: linear-gradient(
+          90deg,
+          rgb(119, 204, 222) 0%,
+          rgb(141, 219, 235) 100%
+        );
+        border-radius: 10px;
+        margin-left: 10px;
+        max-width: 250px;
+        min-width: 50px;
+        padding: 10px;
+        padding-top: 0px;
+        text-align: left;
+      }
+      &__your {
+        background: linear-gradient(
+          90deg,
+          rgb(168, 157, 199) 0%,
+          rgba(129, 114, 171, 1) 100%
+        );
+        border-radius: 10px;
+        max-width: 250px;
+        margin-left: auto;
+        margin-right: 10px;
+        padding: 10px;
+        padding-top: 0px;
+        text-align: right;
+      }
+    }
+    &__body {
+      margin-left: auto;
+      margin-right: auto;
+      width: 99%;
+      height: 74%;
+      padding-top: 10px;
+
+      background-color: rgb(205, 205, 205);
+    }
+    &__input {
+      margin-top: 10px;
+      width: 60%;
+      min-height: 17px;
+      border: 1px solid #ccc;
+      max-height: 150px;
+      font-size: 24px;
+      resize: none;
+    }
+  }
+  &__answers {
+    width: 300px;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px rgb(226, 226, 226);
+    &__script {
+      height: 90px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      border: 3px dashed rgb(0, 0, 0);
+      background-color: rgb(231, 231, 231);
+      margin-bottom: 10px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+.faq {
+  &__root {
+    display: flex;
+    height: 100vw;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(0, 212, 255, 1) 48%,
+      rgba(129, 114, 171, 1) 100%
+    );
+  }
+  &__questions {
+    width: 100%;
+  }
+  &__support {
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #00a7cf;
+  }
+}
+.banner {
+  text-align: center;
+  padding-top: 5px;
+  height: 12vh;
+  padding-right: 15px;
+  background: linear-gradient(
+    90deg,
+    rgb(244, 244, 244) 0%,
+    rgb(0, 182, 219) 48%,
+    rgb(150, 128, 205) 100%
+  );
+  img {
+    height: 80px;
+  }
+  &__quit {
+    float: right;
+    font-size: 24px;
+    position: relative;
+    bottom: 30px;
+  }
+}
+.root {
+  height: 100%;
+}
