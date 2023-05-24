@@ -7,7 +7,7 @@ const PageChatManager = () => {
   return (
     <div className="chat__root">
       <Pick name="Артем Перевертайло" problem="Ваша проблема" isUser={false} />
-      <Active info="Перевертайло Артем Алексеевич" name="Перевертайло Артем" />
+      <Active info="Перевертайло Артем Алексеевич" name={true} />
       <More isUser={false} />
     </div>
   );

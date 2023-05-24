@@ -1,34 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Message } from "./message";
-import { Button, Input } from "antd";
+import { Input } from "antd";
+import socketIO from "socket.io-client";
+const socket = socketIO.connect("http://localhost:5000");
+
 const { TextArea } = Input;
 const Active = ({ info, name }) => {
-  const arr = [
-    { isUser: true, name: "Перевертайло Артем", text: "Текст текст текст" },
-    {
-      isUser: false,
-      name: "Менеджер",
-      text: "Текст текст текст Текст текст текст Текст текст текст",
-    },
-    { isUser: true, name: "Перевертайло Артем", text: "Спасибо" },
-    {
-      isUser: false,
-      name: "Менеджер",
-      text: "Текст текстТекст текст текст Текст текст текст Текст текст текст  текст Текст текст текст Текст текст текст",
-    },
-  ];
   const [value, setValue] = useState();
+  const [message, setMessage] = useState([]);
+  useEffect(() => {
+    socket.on("response", (data) => setMessage([...message, data]));
+  });
+  function sendmessage() {
+    socket.emit("message", {
+      text: value,
+      name: "Петя",
+      isManage: { name },
+      id: `${socket.id}`,
+      socketID: socket.id,
+    });
+  }
+
   return (
     <div className="chat__active">
       <h2>{info}</h2>
       <div className="chat__active__body">
-        {arr.map((type) => (
-          <Message
-            isUser={type.isUser}
-            name={type.name}
-            text={type.text}
-          ></Message>
-        ))}
+        {message.map((type) =>
+          type.isManage.name ? (
+            <Message isUser={false} name={type.name} text={type.text}></Message>
+          ) : (
+            <Message isUser={true} name={type.name} text={type.text}></Message>
+          )
+        )}
       </div>
       <TextArea
         onChange={(e) => setValue(e.target.value)}
@@ -37,6 +40,7 @@ const Active = ({ info, name }) => {
         placeholder="Введите текст сообщения…"
         autosize={{ minRows: 1, maxRows: 6 }}
       />
+      <button onClick={() => sendmessage()}>Тест</button>
     </div>
   );
 };

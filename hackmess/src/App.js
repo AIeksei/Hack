@@ -14,8 +14,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Banner />}>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<Navigate to="/faq" replace />} />
+            <Route path="*" element={<Navigate to="/faq" replace />} />
             <Route
               exact
               path="/login"

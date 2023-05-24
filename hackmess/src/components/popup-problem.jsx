@@ -6,7 +6,7 @@ const PopupProblem = () => {
   return (
     <Popup
       trigger={<div className="faq__support">Обратиться в поддержку</div>}
-      position="right center"
+      position="top center"
     >
       <div>
         <h1>Выберите свою проблему</h1>

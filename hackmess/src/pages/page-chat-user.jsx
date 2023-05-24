@@ -7,7 +7,7 @@ const PageChatUser = () => {
   return (
     <div className="chat__root">
       <Pick name="ВАША ПРОБЛЕМА" problem="Решена" isUser={true} />
-      <Active info="ЧАТ ПОДДЕРЖКИ" name="Ваш Менеджер" />
+      <Active info="ЧАТ ПОДДЕРЖКИ" name={false} />
       <More isUser={true} />
     </div>
   );
