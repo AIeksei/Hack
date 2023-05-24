@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Message } from "./message";
 import { Button, Input } from "antd";
+import TextareaAutosize from 'react-textarea-autosize';
+import send from "../img/paper.svg"
 const { TextArea } = Input;
 const Active = ({ info, name }) => {
   const arr = [
@@ -30,13 +32,15 @@ const Active = ({ info, name }) => {
           ></Message>
         ))}
       </div>
-      <TextArea
+      <TextareaAutosize className="chat__active__input" value={value}/>
+      <img className="chat__active__img" src = {send}/>
+      {/*<TextArea
         onChange={(e) => setValue(e.target.value)}
         size="large"
         value={value}
         placeholder="Введите текст сообщения…"
         autosize={{ minRows: 1, maxRows: 6 }}
-      />
+        />*/}
     </div>
   );
 };
