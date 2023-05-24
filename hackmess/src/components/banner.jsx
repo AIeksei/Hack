@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import React from "react";
 import logo from "../img/Logo.png";
-const Banner = () => {
+const Banner = ({ registerUser }) => {
   return (
     <>
       <header className="banner">
@@ -12,7 +12,7 @@ const Banner = () => {
               <img src={logo}></img>
             </Link>
             <Link to="/login">
-              <div className="banner__quit">
+              <div className="banner__quit" onClick={() => registerUser()}>
                 <a>Выход</a>
               </div>
             </Link>
