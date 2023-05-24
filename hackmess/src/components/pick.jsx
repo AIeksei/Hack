@@ -3,7 +3,7 @@ import { DialogChoose } from "./dialogChoose";
 import { ManagedButtons } from "./managedButtons";
 import { UseAuth } from "./hook/useAuth";
 
-const Pick = ({ isUser, setChat }) => {
+const Pick = ({ isUser, setChat, chat }) => {
   const arr = [
     { id: 1, is_solved: true, problem_id: 1, user_id: 2, manager_id: 1 },
     { id: 2, is_solved: true, problem_id: 2, user_id: 3, manager_id: 3 },
@@ -99,7 +99,7 @@ const Pick = ({ isUser, setChat }) => {
         )}
       </div>
 
-      <ManagedButtons isUser={isUser} />
+      <ManagedButtons isUser={isUser} chat={chat} />
     </div>
   );
 };

@@ -3,7 +3,8 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [id, setId] = useState(2);
+  const [userId, setUserId] = useState(null);
+  const [moderatorId, setModeratorId] = useState(null);
   const [email, setEmail] = useState(null);
   const [surname, setSurname] = useState(null);
   const [name, setName] = useState(null);
@@ -12,23 +13,26 @@ export const AuthProvider = ({ children }) => {
   const [accNumber, setAccNumber] = useState(null);
   const [passport, setPassport] = useState(null);
   const [snils, setSnils] = useState(null);
+  const [nickname, setNickname] = useState(null);
+  const [problemId, setProblemId] = useState(null);
   const [enabled, setEnabled] = useState(true);
-  const [moderator, setModerator] = useState(null);
-
-  const signin = (
-    id,
-    surname,
+  const [enabledManage, setEnabledManage] = useState(true);
+  const signout = (cb) => {
+    cb();
+  };
+  const signinUser = (
+    userId,
     name,
+    surname,
     patronim,
     inn,
     accNumber,
     passport,
     snils,
     email,
-    moderator,
     cb
   ) => {
-    setId(id);
+    setUserId(userId);
     setEmail(email);
     setSurname(surname);
     setName(name);
@@ -38,27 +42,37 @@ export const AuthProvider = ({ children }) => {
     setPassport(passport);
     setSnils(snils);
     setEnabled(true);
-    setModerator(moderator);
-    cb();
-  };
-  const signout = (cb) => {
-    setEnabled(false);
     cb();
   };
 
   const value = {
-    id,
-    surname,
+    userId,
     name,
+    surname,
     patronim,
     inn,
     accNumber,
     passport,
     snils,
     email,
-    moderator,
     enabled,
-    signin,
+    signinUser,
+    signout,
+  };
+  const signinMod = (moderatorId, nickname, problemId, cb) => {
+    setModeratorId(moderatorId);
+    setNickname(nickname);
+    setProblemId(problemId);
+    setEnabledManage(true);
+    cb();
+  };
+
+  const valueMod = {
+    moderatorId,
+    nickname,
+    problemId,
+    enabledManage,
+    signinMod,
     signout,
   };
 

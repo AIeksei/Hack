@@ -12,7 +12,7 @@ const Sock = new SockJS("http://localhost:5000/ws");
 var stompClient = null;
 const socket = socketIO.connect("http://localhost:5000");
 
-const Active = ({ info, name, arrMessages, chat }) => {
+const Active = ({ info, name, arrMessages, chat, isUser }) => {
   const [privateChats, setPrivateChats] = useState(new Map());
   const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState("CHATROOM");
@@ -127,6 +127,7 @@ const Active = ({ info, name, arrMessages, chat }) => {
   const registerUser = () => {
     connect();
   };
+
   const { script, setScript } = useContext(scriptContext);
   const [value, setValue] = useState();
   useEffect(() => {
@@ -166,16 +167,42 @@ const Active = ({ info, name, arrMessages, chat }) => {
           )
         )}
       </div>
-      <TextareaAutosize
-        className="chat__active__input"
-        onChange={(e) => setValue(e.target.value)}
-        value={value}
-      />
-      <img
-        className="chat__active__img"
-        src={send}
-        onClick={() => sendmessage()}
-      />
+      {isUser ? (
+        <>
+          <TextareaAutosize
+            className="chat__active__input"
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          />
+          <img
+            className="chat__active__img"
+            src={send}
+            onClick={() => sendmessage()}
+          />
+          <div className="chat__active__rate">Оценить менеджера</div>
+        </>
+      ) : (
+        <>
+          {
+            /*activeChat.manager_id == user.id*/ true ? (
+              <>
+                <TextareaAutosize
+                  className="chat__active__input"
+                  onChange={(e) => setValue(e.target.value)}
+                  value={value}
+                />
+                <img
+                  className="chat__active__img"
+                  src={send}
+                  onClick={() => sendmessage()}
+                />
+              </>
+            ) : (
+              <></>
+            )
+          }
+        </>
+      )}
     </div>
   );
 };

@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { UseAuth } from "../components/hook/useAuth";
+import { AxiosLogin } from "../components/axiosLogin";
+
 const AuthUser = ({ name, isUser }) => {
+  const handleSubmit = () => {
+    AxiosLogin(isUser, { signin });
+  };
+  const { signin } = UseAuth;
   return (
     <div className="login">
       <form className="login__form">
@@ -22,7 +29,11 @@ const AuthUser = ({ name, isUser }) => {
         {isUser ? (
           <>
             <Link to="/faq">
-              <button type="submit" className="login__button">
+              <button
+                type="submit"
+                className="login__button"
+                onClick={() => handleSubmit()}
+              >
                 Войти
               </button>
             </Link>
@@ -32,7 +43,11 @@ const AuthUser = ({ name, isUser }) => {
         ) : (
           <>
             <Link to="/managesupport">
-              <button type="submit" className="login__button">
+              <button
+                type="submit"
+                className="login__button"
+                onClick={() => handleSubmit()}
+              >
                 Войти
               </button>
             </Link>

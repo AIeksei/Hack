@@ -97,12 +97,13 @@ const PageChatUser = () => {
   return (
     <scriptContext.Provider value={{ script, setScript }}>
       <div className="chat__root">
-        <Pick isUser={true} setChat={setChat} />
+        <Pick isUser={true} setChat={setChat} chat={chat} />
         <Active
           info="ЧАТ ПОДДЕРЖКИ"
           name={false}
           arrMessages={arrMessages}
           chat={chat}
+          isUser={true}
         />
         <More isUser={true} />
       </div>
