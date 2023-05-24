@@ -1,12 +1,12 @@
 import React from "react";
 import { Script } from "./script";
-
 const Scripts = ({ user }) => {
   const arr = [
     "Здравствуйте уважаемый ФИО нейм",
     "Спасибо за обращение в нашу компанию",
     "Для решения этой проблемы я могу предложить вам",
   ];
+
   return (
     <>
       <div className="chat__answers">

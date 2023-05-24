@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
+import { scriptContext } from "../pages/page-chat-manager";
 
+const arr = [
+  { name: "ИНН", text: "12312031239012903" },
+  { name: "Паспорт", text: "2342342349234239423" },
+  { name: "Номер Счета", text: "3290423904902342390423" },
+  { name: "Номер Телефона", text: "234389438943894343" },
+  { name: "СНИЛС", text: "94348594590349053459034" },
+];
 const Help = ({ user }) => {
+  const { script, setScript } = useContext(scriptContext);
   return (
     <>
       <div className="chat__answers">
         <h2>Полезные данные</h2>
-        <div className="chat__answers__script">
-          <h4>ИНН</h4>
-          <a>12312031239012903</a>
-        </div>
-        <div className="chat__answers__script">
-          <h4>Паспорт</h4>
-          <a>2342342349234239423</a>
-        </div>
-        <div className="chat__answers__script">
-          <h4>Номер Счета</h4>
-          <a> 3290423904902342390423</a>
-        </div>
-        <div className="chat__answers__script">
-          <h4>Номер Телефона</h4>
-          <a>234389438943894343</a>
-        </div>
-        <div className="chat__answers__script">
-          <h4>СНИЛС</h4>
-          <a>94348594590349053459034</a>
-        </div>
+
+        {arr.map((type) => (
+          <div
+            className="chat__answers__script"
+            onClick={() =>
+              setScript((prev) => prev + ` ${type.name}: ${type.text}`)
+            }
+          >
+            <h4>{type.name}</h4>
+            <a>{type.text}</a>
+          </div>
+        ))}
       </div>
     </>
   );

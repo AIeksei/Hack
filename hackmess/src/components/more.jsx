@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Help } from "./user-help";
 import { Scripts } from "./scrits";
 

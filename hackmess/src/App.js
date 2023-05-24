@@ -8,6 +8,7 @@ import { Faq } from "./pages/page-faq";
 import { PagePlease } from "./pages/page-please";
 import "./sass/style.scss";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+
 function App() {
   return (
     <AuthProvider>
