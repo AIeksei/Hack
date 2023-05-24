@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Message } from "./message";
-import { Input } from "antd";
 import TextareaAutosize from "react-textarea-autosize";
 import send from "../img/paper.svg";
-import SockJS from "sockjs-client";
-import socketIO from "socket.io-client";
-import { over } from "stompjs";
 
 import { scriptContext } from "../pages/page-chat-manager";
+import { WebsocketContext } from "./hook/websocket";
+import { UseAuth } from "./hook/useAuth";
 var stompClient = null;
 //const socket = socketIO.connect("http://localhost:5000");
 
-const Active = ({ info, name, arrMessages, chat, isUser }) => {
+const Active = ({ info, arrMessages, chat, isUser }) => {
+  const values = useContext(WebsocketContext);
   const { script, setScript } = useContext(scriptContext);
   const [value, setValue] = useState();
+  const user = UseAuth();
   useEffect(() => {
     setValue(script);
   }, [script]);
@@ -26,9 +26,10 @@ const Active = ({ info, name, arrMessages, chat, isUser }) => {
         console.log(arr);
       }
     setMessage(arr);
-    socket.on("response", (data) => setMessage([...message, data]));
+    //socket.on("response", (data) => setMessage([...message, data]));
   }, [chat]);
   function sendmessage() {
+    isUser ? values.value.sendValue(chat) : values.value.sendValueMod(chat);
     /*socket.emit("message", {
       text: value,
       name: "Петя",
@@ -43,11 +44,11 @@ const Active = ({ info, name, arrMessages, chat, isUser }) => {
     <div className="chat__active">
       <h2>{info}</h2>
       <div className="chat__active__body">
-        {message.map((type) =>
-          !type.user_id ? (
-            <Message isUser={false} name={type.name} text={type.text}></Message>
-          ) : (
+        {values.value.messages.map((type) =>
+          user.id == type.user_id ? (
             <Message isUser={true} name={type.name} text={type.text}></Message>
+          ) : (
+            <Message isUser={false} name={type.name} text={type.text}></Message>
           )
         )}
       </div>

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { DialogChoose } from "./dialogChoose";
 import { ManagedButtons } from "./managedButtons";
 import { UseAuth } from "./hook/useAuth";
+import getApi from "./api";
+import { WebsocketContext } from "./hook/websocket";
+import { UseAuthMod } from "./hook/useAuthMod";
 
 const Pick = ({ isUser, setChat, chat }) => {
   const arr = [
@@ -10,23 +13,24 @@ const Pick = ({ isUser, setChat, chat }) => {
     { id: 3, is_solved: false, problem_id: 2, user_id: 2, manager_id: null },
     { id: 4, is_solved: true, problem_id: 3, user_id: 2, manager_id: 2 },
   ];
-  const arrProblem = [
-    { id: 1, problem: "Финансирование Поставщиков" },
-    { id: 2, problem: "Кредит на госконтракт" },
-    { id: 3, problem: "Факторинг" },
-  ];
+  const value = useContext(WebsocketContext);
+  const [arrProblem, setArrProblem] = useState([]);
+  getApi("table").then((data) => {
+    setArrProblem(data.results);
+  });
   function pickChat(e) {
     setChat(e);
     console.log(e);
   }
   const user = UseAuth();
+  const manage = UseAuthMod();
   return (
     <div className="chat__pick">
       <div className="chat__pick__users">
         {isUser ? (
           <>
             <h2>Ваши проблемы</h2>
-            {arr.map((type) => (
+            {value.value.privateChats.map((type) => (
               <>
                 {type.user_id === user.id ? (
                   <DialogChoose
@@ -47,7 +51,7 @@ const Pick = ({ isUser, setChat, chat }) => {
             <h2>Активные чаты</h2>
             {arr.map((type) => (
               <>
-                {type.manager_id == user.id ? (
+                {type.manager_id == manage.id ? (
                   <DialogChoose
                     name={type.problem_id}
                     problem={type.is_solved}
@@ -82,7 +86,7 @@ const Pick = ({ isUser, setChat, chat }) => {
             <h2>Чаты других менеджеров</h2>
             {arr.map((type) => (
               <>
-                {type.manager_id != user.id && type.manager_id ? (
+                {type.manager_id != manage.id && type.manager_id ? (
                   <DialogChoose
                     name={type.problem_id}
                     problem={type.is_solved}
