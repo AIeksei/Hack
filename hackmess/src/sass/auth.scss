@@ -133,8 +133,11 @@
         );
       }
       h3 {
+        font-size: 15px;
         margin-top: 15px;
         margin-bottom: 5px;
+        position: relative;
+        top: 5px;
       }
     }
     &__users {
