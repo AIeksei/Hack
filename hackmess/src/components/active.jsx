@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Message } from "./message";
 import { Input } from "antd";
+import TextareaAutosize from "react-textarea-autosize";
+import send from "../img/paper.svg";
 import socketIO from "socket.io-client";
 const socket = socketIO.connect("http://localhost:5000");
 
@@ -33,14 +35,8 @@ const Active = ({ info, name }) => {
           )
         )}
       </div>
-      <TextArea
-        onChange={(e) => setValue(e.target.value)}
-        size="large"
-        value={value}
-        placeholder="Введите текст сообщения…"
-        autosize={{ minRows: 1, maxRows: 6 }}
-      />
-      <button onClick={() => sendmessage()}>Тест</button>
+      <TextareaAutosize className="chat__active__input" value={value} />
+      <img className="chat__active__img" src={send} />
     </div>
   );
 };
