@@ -3,9 +3,9 @@ import { createContext, useState } from "react";
 export const AuthContextMod = createContext(null);
 
 export const AuthProviderMod = ({ children }) => {
-  const [moderatorId, setModeratorId] = useState(null);
-  const [nickname, setNickname] = useState(null);
-  const [problemId, setProblemId] = useState(null);
+  const [moderatorId, setModeratorId] = useState(3);
+  const [nickname, setNickname] = useState("zyablik");
+  const [problemId, setProblemId] = useState("2");
   const [enabledManage, setEnabledManage] = useState(true);
   const signout = (cb) => {
     cb();

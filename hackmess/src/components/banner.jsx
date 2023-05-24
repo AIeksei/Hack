@@ -1,7 +1,10 @@
 import { Outlet, Link } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../img/Logo.png";
-const Banner = ({ registerUser }) => {
+import { WebsocketContext } from "./hook/websocket";
+const Banner = () => {
+  const user = useContext(WebsocketContext);
+  console.log(user);
   return (
     <>
       <header className="banner">
@@ -12,7 +15,7 @@ const Banner = ({ registerUser }) => {
               <img src={logo}></img>
             </Link>
             <Link to="/login">
-              <div className="banner__quit" onClick={() => registerUser()}>
+              <div className="banner__quit">
                 <a>Выход</a>
               </div>
             </Link>

@@ -3,20 +3,16 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
-  const [moderatorId, setModeratorId] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [surname, setSurname] = useState(null);
-  const [name, setName] = useState(null);
-  const [patronim, setPatronim] = useState(null);
-  const [inn, setInn] = useState(null);
-  const [accNumber, setAccNumber] = useState(null);
-  const [passport, setPassport] = useState(null);
-  const [snils, setSnils] = useState(null);
-  const [nickname, setNickname] = useState(null);
-  const [problemId, setProblemId] = useState(null);
+  const [userId, setUserId] = useState(2);
+  const [email, setEmail] = useState("artemper2002@gmail.com");
+  const [surname, setSurname] = useState("Перевертайло");
+  const [name, setName] = useState("Артем");
+  const [patronim, setPatronim] = useState("Алексеевич");
+  const [inn, setInn] = useState(7324546546546);
+  const [accNumber, setAccNumber] = useState(54656546546);
+  const [passport, setPassport] = useState(65466456546);
+  const [snils, setSnils] = useState(6546464564);
   const [enabled, setEnabled] = useState(true);
-  const [enabledManage, setEnabledManage] = useState(true);
   const signout = (cb) => {
     cb();
   };
@@ -57,22 +53,6 @@ export const AuthProvider = ({ children }) => {
     email,
     enabled,
     signinUser,
-    signout,
-  };
-  const signinMod = (moderatorId, nickname, problemId, cb) => {
-    setModeratorId(moderatorId);
-    setNickname(nickname);
-    setProblemId(problemId);
-    setEnabledManage(true);
-    cb();
-  };
-
-  const valueMod = {
-    moderatorId,
-    nickname,
-    problemId,
-    enabledManage,
-    signinMod,
     signout,
   };
 

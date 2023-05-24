@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Pick } from "../components/pick";
 import { Active } from "../components/active";
 import { More } from "../components/more";
 import { scriptContext } from "./page-chat-manager";
 import { UseAuth } from "../components/hook/useAuth";
+import { WebsocketContext } from "../components/hook/websocket";
 const arrMessages = [
   {
     text: "Тест Тест",

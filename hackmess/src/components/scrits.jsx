@@ -1,6 +1,6 @@
 import React from "react";
 import { Script } from "./script";
-const Scripts = ({ user }) => {
+const Scripts = () => {
   const arr = [
     "Здравствуйте уважаемый ФИО нейм",
     "Спасибо за обращение в нашу компанию",

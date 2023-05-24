@@ -1,11 +1,16 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { UseAuth } from "../components/hook/useAuth";
 import { AxiosLogin } from "../components/axiosLogin";
-
+import React, { useContext, useState } from "react";
+import { WebsocketContext } from "../components/hook/websocket";
 const AuthUser = ({ name, isUser }) => {
-  const handleSubmit = () => {
-    AxiosLogin(isUser, { signin });
+  const [valueEmail, setValueEmail] = useState("");
+  const [valuePass, setValuePass] = useState("");
+  const user = useContext(WebsocketContext);
+  const handleSubmit = (isUser) => {
+    console.log(valueEmail, valuePass);
+    isUser ? user.value.registerUser() : user.value.registerManager();
+    AxiosLogin(isUser, { signin }, valueEmail, valuePass);
   };
   const { signin } = UseAuth;
   return (
@@ -16,14 +21,16 @@ const AuthUser = ({ name, isUser }) => {
           placeholder="e-mail"
           type="text"
           className="login__input"
-          name="username"
+          onChange={(e) => setValueEmail(e.target.value)}
+          value={valueEmail}
         ></input>
         <div className="Err" id="emERR"></div>
         <input
           placeholder="Пароль"
           type="password"
           className="login__input"
-          name="pass"
+          onChange={(e) => setValuePass(e.target.value)}
+          value={valuePass}
         ></input>
         <div className="Err" id="authERR"></div>
         {isUser ? (
@@ -32,7 +39,7 @@ const AuthUser = ({ name, isUser }) => {
               <button
                 type="submit"
                 className="login__button"
-                onClick={() => handleSubmit()}
+                onClick={() => handleSubmit(isUser)}
               >
                 Войти
               </button>
@@ -46,7 +53,7 @@ const AuthUser = ({ name, isUser }) => {
               <button
                 type="submit"
                 className="login__button"
-                onClick={() => handleSubmit()}
+                onClick={() => handleSubmit(isUser)}
               >
                 Войти
               </button>

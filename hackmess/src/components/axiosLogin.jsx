@@ -1,11 +1,10 @@
 import axios from "axios";
-const AxiosLogin = (isUser, { signin }) => {
+const AxiosLogin = (isUser, { signin }, valueEmail, valuePass) => {
   if (isUser) {
     axios
-      .get(`http://localhost:8080/users/email/`, {
-        headers: {
-          Authorization: "Basic ",
-        },
+      .post(`http://localhost:5500/auth/login/`, {
+        inn: valueEmail,
+        password: valuePass,
       })
       .then(function (res) {
         let userId = res.data.user_id;
@@ -36,10 +35,9 @@ const AxiosLogin = (isUser, { signin }) => {
       });
   } else {
     axios
-      .get(`http://localhost:8080/users/email/`, {
-        headers: {
-          Authorization: "Basic ",
-        },
+      .post(`http://localhost:5500/auth/login/`, {
+        nickname: valueEmail,
+        password: valuePass,
       })
       .then(function (res) {
         let moderatorId = res.data.id;

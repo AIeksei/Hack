@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Popup from "reactjs-popup";
+import { WebsocketContext } from "./hook/websocket";
 
 const ManagedButtons = ({ isUser, chat }) => {
+  const value = useContext(WebsocketContext);
   function stopChat() {
-    //setIsSolved(!isSolved);
+    value.value.stopDialog(chat);
   }
   function changeManager(e) {
-    //setProblem(e);
+    value.value.changeManager(chat, e);
   }
   return (
     <div className="chat__pick__buttons">
@@ -29,10 +31,7 @@ const ManagedButtons = ({ isUser, chat }) => {
             <div className="popup__choosing" onClick={() => changeManager(0)}>
               <h2>1.Понял, что выбрал неверную проблему</h2>
             </div>
-            <div
-              className="popup__choosing"
-              onClick={() => changeManager(chat.problem)}
-            >
+            <div className="popup__choosing" onClick={() => changeManager()}>
               <h2>2.Некомпетентный менеджер</h2>
             </div>
           </div>
