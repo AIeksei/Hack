@@ -30,8 +30,8 @@ const Active = ({ info, arrMessages, chat, isUser }) => {
   }, [chat]);
   function sendmessage() {
     isUser
-      ? values.value.sendValue(chat, "value")
-      : values.value.sendValueMod(chat, "value");
+      ? values.value.sendValue(chat, value)
+      : values.value.sendValueMod(chat, value);
     /*socket.emit("message", {
       text: value,
       name: "Петя",

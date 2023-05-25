@@ -1,11 +1,21 @@
 import axios from "axios";
+const headers = {
+  "Content-Type": "application/json",
+};
+const url = "http://localhost:5500/";
+
+axios.get(url, { headers });
 const AxiosLogin = (isUser, { signin }, valueEmail, valuePass) => {
   if (isUser) {
     axios
-      .post(`http://localhost:5500/auth/login/`, {
-        inn: valueEmail,
-        password: valuePass,
-      })
+      .post(
+        `${url}login`,
+        {
+          inn: valueEmail,
+          password: valuePass,
+        },
+        { headers }
+      )
       .then(function (res) {
         let userId = res.data.user_id;
         let surname = res.data.surname;
@@ -35,10 +45,14 @@ const AxiosLogin = (isUser, { signin }, valueEmail, valuePass) => {
       });
   } else {
     axios
-      .post(`http://localhost:5500/auth/login/`, {
-        nickname: valueEmail,
-        password: valuePass,
-      })
+      .post(
+        `${url}login/manager`,
+        {
+          nickname: valueEmail,
+          password: valuePass,
+        },
+        { headers }
+      )
       .then(function (res) {
         let moderatorId = res.data.id;
         let nickname = res.data.nickname;
