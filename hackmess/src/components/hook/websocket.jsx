@@ -77,7 +77,7 @@ export const WebsocketProvider = ({ children }) => {
     stompClient.send("/chat/update", {}, JSON.stringify(chatMessage));
   };
   //Вывод сообщений по чату
-  const chatMessages = ({ chat_id }) => {
+  const chatMessages = (chat_id) => {
     var chatMessage = {
       chat_id: chat_id,
     };
@@ -85,7 +85,7 @@ export const WebsocketProvider = ({ children }) => {
   };
 
   //отправка сообщения пользователем
-  const sendValue = ({ chat_id, value }) => {
+  const sendValue = (chat_id, value) => {
     if (stompClient) {
       var chatMessage = {
         user_id: user.userId,
@@ -97,7 +97,7 @@ export const WebsocketProvider = ({ children }) => {
     }
   };
   //отправка сообщения менеджером
-  const sendValueMod = ({ chat_id }) => {
+  const sendValueMod = (chat_id, value) => {
     if (stompClient) {
       var chatMessage = {
         manager_id: manager.managerId,
@@ -109,7 +109,8 @@ export const WebsocketProvider = ({ children }) => {
     }
   };
   //Создание чата по проблеме
-  const userPickProblem = ({ problem_id }) => {
+  const userPickProblem = (problem_id) => {
+    console.log(problem_id);
     var chatMessage = {
       user_id: user.userId,
       problem_id: problem_id,
