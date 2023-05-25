@@ -12,7 +12,7 @@ export const WebsocketProvider = ({ children }) => {
   console.log(user);
   const manager = UseAuthMod();
   const [privateChats, setPrivateChats] = useState(new Map());
-  const [messages, setMessges] = useState();
+  const [messages, setMessges] = useState(new Map());
   const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState("CHATROOM");
   const [userData, setUserData] = useState({
@@ -38,46 +38,50 @@ export const WebsocketProvider = ({ children }) => {
     console.log(userData);
   }, [userData]);
 
-  const connect = (e) => {
+  const connect = () => {
     let Sock = new SockJS("http://localhost:5500/ws");
     stompClient = over(Sock);
-    stompClient.connect({}, onConnected(e), onError);
+    stompClient.connect({}, onConnected, onError);
   };
-  const onConnected = (e) => {
-    if (e == true) {
-      setUserData({
-        surname: user.surname,
-        name: user.name,
-        patronim: user.patronim,
-        inn: user.inn,
-        accNumber: user.accNumber,
-        passport: user.passport,
-        snils: user.snils,
-        email: user.email,
-        user_id: user.user_id,
-        connected: true,
-      });
-      stompClient.subscribe("/chatroom/public", onMessageReceived);
-      stompClient.subscribe(
-        "/user/" + userData.username + "/private",
-        onPrivateMessage
-      );
-      userJoin();
-    } else {
-      setManagerData({
-        manager_id: manager.managerId,
-        nickname: manager.nickname,
-        problem_id: manager.problemId,
-        is_available: manager.isAvailable,
-        connected: false,
-      });
-      stompClient.subscribe("/chatroom/public", onMessageReceived);
-      stompClient.subscribe(
-        "/user/" + userData.username + "/private",
-        onPrivateMessage
-      );
-      managerJoin();
-    }
+  const connectMod = () => {
+    let Sock = new SockJS("http://localhost:5500/ws");
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnectedMod, onError);
+  };
+  const onConnected = () => {
+    setUserData({
+      surname: user.surname,
+      name: user.name,
+      patronim: user.patronim,
+      inn: user.inn,
+      accNumber: user.accNumber,
+      passport: user.passport,
+      snils: user.snils,
+      email: user.email,
+      user_id: user.user_id,
+      connected: true,
+    });
+    stompClient.subscribe("/chatroom/public", onMessageReceived);
+    stompClient.subscribe(
+      "/user/" + userData.username + "/private",
+      onPrivateMessage
+    );
+    userJoin();
+  };
+  const onConnectedMod = () => {
+    setManagerData({
+      manager_id: manager.managerId,
+      nickname: manager.nickname,
+      problem_id: manager.problemId,
+      is_available: manager.isAvailable,
+      connected: false,
+    });
+    stompClient.subscribe("/chatroom/public", onMessageReceived);
+    stompClient.subscribe(
+      "/user/" + userData.username + "/private",
+      onPrivateMessage
+    );
+    managerJoin();
   };
 
   const userJoin = () => {
@@ -220,11 +224,11 @@ export const WebsocketProvider = ({ children }) => {
 
   const registerUser = () => {
     console.log("dsdfsd");
-    connect(true);
+    connect();
   };
   const registerManager = () => {
     console.log("dsdfsd");
-    connect(false);
+    connectMod();
   };
   const value = {
     handleMessage,

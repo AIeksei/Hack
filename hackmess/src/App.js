@@ -19,9 +19,9 @@ var stompClient = null;
 
 function App() {
   return (
-    <WebsocketProvider>
-      <AuthProvider>
-        <AuthProviderMod>
+    <AuthProvider>
+      <AuthProviderMod>
+        <WebsocketProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Banner />}>
@@ -57,9 +57,9 @@ function App() {
               </Route>
             </Routes>
           </BrowserRouter>
-        </AuthProviderMod>
-      </AuthProvider>
-    </WebsocketProvider>
+        </WebsocketProvider>
+      </AuthProviderMod>
+    </AuthProvider>
   );
 }
 
