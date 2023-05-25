@@ -15,9 +15,9 @@ const Pick = ({ isUser, setChat, chat }) => {
   ];
   const value = useContext(WebsocketContext);
   const [arrProblem, setArrProblem] = useState([]);
-  getApi("table").then((data) => {
+  /*getApi("table").then((data) => {
     setArrProblem(data.results);
-  });
+  });*/
   function pickChat(e) {
     setChat(e);
     console.log(e);
@@ -30,14 +30,14 @@ const Pick = ({ isUser, setChat, chat }) => {
         {isUser ? (
           <>
             <h2>Ваши проблемы</h2>
-            {value.value.privateChats.map((type) => (
+            {value.value.chats.map((type) => (
               <>
                 {type.user_id === user.id ? (
                   <DialogChoose
                     name={type.problem_id}
                     problem={type.is_solved}
                     id={type.id}
-                    arrProblem={arrProblem}
+                    arrProblem={arr}
                     onClick={() => pickChat(type.id)}
                   />
                 ) : (
@@ -49,7 +49,7 @@ const Pick = ({ isUser, setChat, chat }) => {
         ) : (
           <>
             <h2>Активные чаты</h2>
-            {arr.map((type) => (
+            {value.value.chats.map((type) => (
               <>
                 {type.manager_id == manage.id ? (
                   <DialogChoose
@@ -65,7 +65,7 @@ const Pick = ({ isUser, setChat, chat }) => {
               </>
             ))}
             <h2>Неактивные чаты</h2>
-            {arr.map((type) => (
+            {value.value.chats.map((type) => (
               <>
                 {!type.manager_id ? (
                   <>
@@ -84,7 +84,7 @@ const Pick = ({ isUser, setChat, chat }) => {
               </>
             ))}
             <h2>Чаты других менеджеров</h2>
-            {arr.map((type) => (
+            {value.value.chats.map((type) => (
               <>
                 {type.manager_id != manage.id && type.manager_id ? (
                   <DialogChoose

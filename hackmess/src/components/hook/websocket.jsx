@@ -1,7 +1,6 @@
 import SockJS from "sockjs-client";
 import { over } from "stompjs";
 import { useState, useEffect, createContext } from "react";
-import getApi from "../api";
 import { UseAuth } from "./useAuth";
 import { UseAuthMod } from "./useAuthMod";
 export const WebsocketContext = createContext("");
@@ -9,34 +8,9 @@ var stompClient = null;
 
 export const WebsocketProvider = ({ children }) => {
   const user = UseAuth();
-  console.log(user);
   const manager = UseAuthMod();
-  const [privateChats, setPrivateChats] = useState(new Map());
-  const [messages, setMessges] = useState(new Map());
-  const [publicChats, setPublicChats] = useState([]);
-  const [tab, setTab] = useState("CHATROOM");
-  const [userData, setUserData] = useState({
-    surname: "",
-    name: "",
-    patronim: "",
-    inn: "",
-    accNumber: "",
-    passport: "",
-    snils: "",
-    email: "",
-    user_id: "",
-    connected: false,
-  });
-  const [managerData, setManagerData] = useState({
-    manager_id: "",
-    nickname: "",
-    problem_id: "",
-    is_available: "",
-    connected: false,
-  });
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState([]);
 
   const connect = () => {
     let Sock = new SockJS("http://localhost:5500/ws");
@@ -48,201 +22,123 @@ export const WebsocketProvider = ({ children }) => {
     stompClient = over(Sock);
     stompClient.connect({}, onConnectedMod, onError);
   };
+  //конект юзера
   const onConnected = () => {
-    setUserData({
-      surname: user.surname,
-      name: user.name,
-      patronim: user.patronim,
-      inn: user.inn,
-      accNumber: user.accNumber,
-      passport: user.passport,
-      snils: user.snils,
-      email: user.email,
-      user_id: user.user_id,
-      connected: true,
-    });
-    stompClient.subscribe("/chatroom/public", onMessageReceived);
-    stompClient.subscribe(
-      "/user/" + userData.username + "/private",
-      onPrivateMessage
-    );
+    stompClient.subscribe("/send/chats", chatsUpdate);
+    stompClient.subscribe("/send/message", messageUpdate);
     userJoin();
   };
+  //коннект менеджера
   const onConnectedMod = () => {
-    setManagerData({
-      manager_id: manager.managerId,
-      nickname: manager.nickname,
-      problem_id: manager.problemId,
-      is_available: manager.isAvailable,
-      connected: false,
-    });
-    stompClient.subscribe("/chatroom/public", onMessageReceived);
-    stompClient.subscribe(
-      "/user/" + userData.username + "/private",
-      onPrivateMessage
-    );
+    stompClient.subscribe("/send/chats", chatsUpdate);
+    stompClient.subscribe("/send/message", messageUpdate);
     managerJoin();
   };
 
+  //Отправка чатов юзеру
   const userJoin = () => {
     var chatMessage = {
-      senderName: userData.username,
-      status: "JOIN",
+      user_id: user.userId,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/user/chats", {}, JSON.stringify(chatMessage));
   };
-
-  const userChats = () => {
+  //Получение чатов юзеру
+  const chatsUpdate = (payload) => {
+    var payloadData = JSON.parse(payload.body);
+    chats.push(payloadData);
+    setChats([...chats]);
+  };
+  //Отправка чатов менеджеру
+  const managerJoin = () => {
     var chatMessage = {
-      user_id: userData.user_id,
+      manager_id: manager.manager_id,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/manager/chats", {}, JSON.stringify(chatMessage));
   };
-
-  const stopDialog = (chat_id) => {
+  //Получение чатов юзеру
+  const messageUpdate = (payload) => {
+    var payloadData = JSON.parse(payload.body);
+    messages.push(payloadData);
+    setMessages([...messages]);
+  };
+  //остановка диалога
+  const stopDialog = ({ chat_id }) => {
     var chatMessage = {
       chat_id: chat_id,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/chat/stop", {}, JSON.stringify(chatMessage));
   };
-
+  //смена менеджера
   const changeManager = (chat_id, problem_id) => {
     var chatMessage = {
       chat_id: chat_id,
       problem_id: problem_id,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/chat/update", {}, JSON.stringify(chatMessage));
   };
-
-  const onMessageReceived = (payload) => {
-    var payloadData = JSON.parse(payload.body);
-    switch (payloadData.status) {
-      case "CHAT":
-        if (!privateChats.get(payloadData.user_id)) {
-          privateChats.set(payloadData.user_id, []);
-          setPrivateChats(new Map(privateChats));
-        }
-        break;
-      case "MESSAGE":
-        publicChats.push(payloadData);
-        setPublicChats([...publicChats]);
-        break;
-    }
-  };
-
-  const onPrivateMessage = (payload) => {
-    console.log(payload);
-    var payloadData = JSON.parse(payload.body);
-    if (privateChats.get(payloadData.senderName)) {
-      privateChats.get(payloadData.senderName).push(payloadData);
-      setPrivateChats(new Map(privateChats));
-    } else {
-      let list = [];
-      list.push(payloadData);
-      privateChats.set(payloadData.senderName, list);
-      setPrivateChats(new Map(privateChats));
-    }
-  };
-
-  const handleMessage = (event) => {
-    const { value } = event.target;
-    setUserData({ ...userData, message: value });
-  };
-  const sendValue = (chat_id) => {
-    if (stompClient) {
-      var chatMessage = {
-        user_id: userData.user_id,
-        content: userData.content,
-        chat_id: chat_id,
-        status: "MESSAGE",
-      };
-      console.log(chatMessage);
-      stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, message: "" });
-    }
-  };
-  const sendValueMod = (chat_id) => {
-    if (stompClient) {
-      var chatMessage = {
-        manager_id: userData.manager_id,
-        content: userData.content,
-        chat_id: chat_id,
-        status: "MESSAGE",
-      };
-      console.log(chatMessage);
-      stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, message: "" });
-    }
-  };
-  const sendPrivateValue = () => {
-    if (stompClient) {
-      var chatMessage = {
-        senderName: userData.username,
-        receiverName: tab,
-        message: userData.message,
-        status: "MESSAGE",
-      };
-
-      if (userData.username !== tab) {
-        privateChats.get(tab).push(chatMessage);
-        setPrivateChats(new Map(privateChats));
-      }
-      stompClient.send("/ms/private-message", {}, JSON.stringify(chatMessage));
-      setUserData({ ...userData, message: "" });
-    }
-  };
-
-  const handleUsername = (event) => {
-    const { value } = event.target;
-    setUserData({ ...userData, username: value });
-  };
-
-  const managerJoin = () => {
+  //Вывод сообщений по чату
+  const chatMessages = ({ chat_id }) => {
     var chatMessage = {
-      senderName: managerData.manager_id,
-      status: "JOIN",
+      chat_id: chat_id,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/ms/message/find", {}, JSON.stringify(chatMessage));
   };
-  const userPickProblem = (problem_id) => {
+
+  //отправка сообщения пользователем
+  const sendValue = ({ chat_id, value }) => {
+    if (stompClient) {
+      var chatMessage = {
+        user_id: user.userId,
+        content: value,
+        chat_id: chat_id,
+      };
+      console.log(chatMessage);
+      stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    }
+  };
+  //отправка сообщения менеджером
+  const sendValueMod = ({ chat_id }) => {
+    if (stompClient) {
+      var chatMessage = {
+        manager_id: manager.managerId,
+        content: value,
+        chat_id: chat_id,
+      };
+      console.log(chatMessage);
+      stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    }
+  };
+  //Создание чата по проблеме
+  const userPickProblem = ({ problem_id }) => {
     var chatMessage = {
-      user_id: userData.user_id,
+      user_id: user.userId,
       problem_id: problem_id,
     };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
+    stompClient.send("/chat/create", {}, JSON.stringify(chatMessage));
   };
-  const managerChats = () => {
-    var chatMessage = {
-      manager_id: managerData.manager_id,
-    };
-    stompClient.send("/ms/message", {}, JSON.stringify(chatMessage));
-  };
-
+  //ошибка
   const onError = (err) => {
     console.log(err);
   };
-
+  //вход юзера
   const registerUser = () => {
-    console.log("dsdfsd");
     connect();
   };
+  //вход менеджера
   const registerManager = () => {
-    console.log("dsdfsd");
     connectMod();
   };
   const value = {
-    handleMessage,
     sendValue,
     sendValueMod,
-    sendPrivateValue,
-    handleUsername,
     registerUser,
     registerManager,
     userPickProblem,
     stopDialog,
     changeManager,
+    chatMessages,
     messages,
-    privateChats,
+    chats,
   };
   return (
     <WebsocketContext.Provider value={{ value }}>
