@@ -3,11 +3,11 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
-  const [moderatorId, setModeratorId] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [userId, setUserId] = useState(2);
+  const [moderatorId, setModeratorId] = useState(3);
+  const [email, setEmail] = useState("arte");
   const [surname, setSurname] = useState(null);
-  const [name, setName] = useState(null);
+  const [name, setName] = useState("Аркадий");
   const [patronim, setPatronim] = useState(null);
   const [inn, setInn] = useState(null);
   const [accNumber, setAccNumber] = useState(null);

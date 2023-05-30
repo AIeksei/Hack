@@ -4,7 +4,7 @@ import { UseAuth } from "./useAuth";
 const RequireAuth = () => {
   const location = useLocation();
   const value = UseAuth();
-  return value.enabled ? <Outlet /> : <Navigate to="/please" />;
+  return <Outlet />;
 };
 
 export { RequireAuth };

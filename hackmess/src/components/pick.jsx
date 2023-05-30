@@ -28,7 +28,7 @@ const Pick = ({ isUser, setChat, chat }) => {
             <h2>Ваши проблемы</h2>
             {arr.map((type) => (
               <>
-                {type.user_id === user.id ? (
+                {type.user_id === user.userId ? (
                   <DialogChoose
                     name={type.problem_id}
                     problem={type.is_solved}

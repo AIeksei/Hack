@@ -4,7 +4,7 @@ export const AuthContextMod = createContext(null);
 
 export const AuthProviderMod = ({ children }) => {
   const [moderatorId, setModeratorId] = useState(null);
-  const [nickname, setNickname] = useState(null);
+  const [nickname, setNickname] = useState("Sanek");
   const [problemId, setProblemId] = useState(null);
   const [enabledManage, setEnabledManage] = useState(true);
   const signout = (cb) => {
